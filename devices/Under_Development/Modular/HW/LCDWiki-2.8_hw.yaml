@@ -48,7 +48,7 @@ microphone:
   - platform: i2s_audio
     id: box_mic
     i2s_audio_id: i2s_audio_bus
-    i2s_din_pin: GPIO8
+    i2s_din_pin: GPIO6
     adc_type: external
     channel: stereo
     pdm: false
@@ -59,7 +59,7 @@ speaker:
   - platform: i2s_audio
     id: box_speaker
     i2s_audio_id: i2s_audio_bus
-    i2s_dout_pin: GPIO6
+    i2s_dout_pin: GPIO8
     dac_type: external
     audio_dac: es8311_dac
     sample_rate: 48000
@@ -117,11 +117,13 @@ media_player:
             - script.execute: draw_display
 
 # --- TOUCHSCREEN --------------------------------------------------------------
+# Note: reset_pin omitted — the D-FT6336G shares reset with board CHIP_PU.
+# The ft63x6 driver's hard_reset_() is too fast (no post-reset delay), so
+# we rely on the natural boot delay instead.
 touchscreen:
   - platform: ft63x6
     id: my_touchscreen
     interrupt_pin: GPIO17
-    reset_pin: GPIO18
     display: main_display
     i2c_id: bus_a
 
